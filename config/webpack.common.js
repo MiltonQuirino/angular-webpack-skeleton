@@ -102,19 +102,16 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: TITLE_ADMIN,
       inject: true,
-      // workaround, issue: https://github.com/ampedandwired/html-webpack-plugin/issues/481
-      chunksSortMode: function (chunk1, chunk2) {
-        let orders = ['polyfills', 'vendor', 'admin'];
-        let order1 = orders.indexOf(chunk1.names[0]);
-        let order2 = orders.indexOf(chunk2.names[0]);
-        if (order1 > order2) {
-          return 1;
-        } else if (order1 < order2) {
-          return -1;
-        } else {
-          return 0;
-        }
-      },
+      // issue: https://github.com/ampedandwired/html-webpack-plugin/issues/481
+      // this will add into admin.html
+      // 1. admin
+      // 2. polyfills
+      // 3. vendor
+      // insted of
+      // 1. polyfills
+      // 2. vendor
+      // 3. admin
+      chunksSortMode: 'auto',
       chunks: ['polyfills', 'vendor', 'admin'],
       template: TEMPLATE_ADMIN_PATH,
       filename: TEMPLATE_ADMIN_HTML
